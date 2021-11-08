@@ -14,6 +14,6 @@ namespace AdventOfCode
 
         public override string Solve_1() => _input.Length.ToString();
 
-        public override string Solve_2() => throw new System.NotImplementedException();
+        public override string Solve_2() => _input.Length.ToString();
     }
 }
