@@ -12,8 +12,8 @@ namespace AdventOfCode
             _input = File.ReadAllText(InputFilePath);
         }
 
-        public override string Solve_1() => _input.Length.ToString();
+        public override ValueTask<string> Solve_1() => new(_input.Length.ToString());
 
-        public override string Solve_2() => _input.Length.ToString();
+        public override ValueTask<string> Solve_2() => new(_input.Length.ToString());
     }
 }

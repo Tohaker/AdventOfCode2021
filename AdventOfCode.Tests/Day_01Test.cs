@@ -9,7 +9,7 @@ namespace AdventOfCode.Tests
         [Fact]
         public void Solution1_ReturnsAnswer()
         {
-            var result = day.Solve_1();
+            var result = day.Solve_1().ToString();
 
             Assert.Equal("Solution to Day 1, part 1", result);
         }
@@ -17,7 +17,7 @@ namespace AdventOfCode.Tests
         [Fact]
         public void Solution2_ReturnsAnswer()
         {
-            var result = day.Solve_2();
+            var result = day.Solve_2().ToString();
 
             Assert.Equal("Solution to Day 1, part 2", result);
         }

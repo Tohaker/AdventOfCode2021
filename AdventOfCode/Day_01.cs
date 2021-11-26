@@ -12,8 +12,14 @@ namespace AdventOfCode
             _input = File.ReadAllText(InputFilePath);
         }
 
-        public override string Solve_1() => $"Solution to {ClassPrefix} {CalculateIndex()}, part 1";
+        public override ValueTask<string> Solve_1() => new($"Solution to {ClassPrefix} {CalculateIndex()}, part 1");
 
-        public override string Solve_2() => $"Solution to {ClassPrefix} {CalculateIndex()}, part 2";
+        public override ValueTask<string> Solve_2() => new(Part2Async());
+
+        private async Task<string> Part2Async()
+        {
+            Task.Delay(1000);
+            return $"Solution to {ClassPrefix} {CalculateIndex()}, part 2";
+        }
     }
 }
