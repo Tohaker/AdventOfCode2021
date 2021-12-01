@@ -1,9 +1,8 @@
-name: Download Input
+name: Daily Input
 
 on:
-  push:
   schedule:
-    - cron: "0 5 * * *"
+    - cron: "5 5 * * *"
 
 jobs:
   download-input:
