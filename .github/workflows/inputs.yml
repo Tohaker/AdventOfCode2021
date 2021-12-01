@@ -1,6 +1,7 @@
 name: Daily Input
 
 on:
+  push:
   schedule:
     - cron: "5 5 * * *"
 
@@ -18,6 +19,7 @@ jobs:
           curl --cookie "session=${SESSION}" \
             -o AdventOfCode/Inputs/${day}.txt \
             "https://adventofcode.com/2021/day/${url_day}/input"
+          truncate -s -1 AdventOfCode/Inputs/${day}.txt
         env:
           SESSION: ${{ secrets.AOC_SESSION_COOKIE }}
 
