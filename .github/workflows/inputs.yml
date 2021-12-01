@@ -15,7 +15,7 @@ jobs:
           day=$(date +%d)
           curl --cookie "session=${SESSION}" \
             -o AdventOfCode/Inputs/${day}.txt \
-            https://adventofcode.com/2021/day/${day}/input
+            "https://adventofcode.com/2021/day/${day}/input"
           cat AdventOfCode/Inputs/${day}.txt
         env:
           SESSION: ${{ secrets.AOC_SESSION_COOKIE }}
