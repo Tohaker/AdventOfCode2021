@@ -1,7 +1,6 @@
 name: Daily Input
 
 on:
-  push:
   schedule:
     - cron: "5 5 * * *"
 
