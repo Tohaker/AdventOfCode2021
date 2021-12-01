@@ -37,6 +37,10 @@ namespace AdventOfCode
             for (int i = 0; i < input.Length - 2; i++)
             {
                 windows.Add(input[i] + input[i + 1] + input[i + 2]);
+
+                // A slower but more functional way could be to use ArraySegments and Sum accumulators
+                // var segment = (new ArraySegment<int>(input, i, 3)).Sum();
+                // windows.Add(segment);
             }
 
             return CalculateDepthIncreases(windows.ToArray());
