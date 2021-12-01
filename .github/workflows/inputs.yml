@@ -1,3 +1,5 @@
+name: Download Input
+
 on:
   push:
   schedule:
@@ -13,9 +15,15 @@ jobs:
       - name: Download input
         run: |
           day=$(date +%d)
+          url_day=$(echo $day | sed 's/^0*//')
           curl --cookie "session=${SESSION}" \
             -o AdventOfCode/Inputs/${day}.txt \
-            "https://adventofcode.com/2021/day/${day}/input"
-          cat AdventOfCode/Inputs/${day}.txt
+            "https://adventofcode.com/2021/day/${url_day}/input"
         env:
           SESSION: ${{ secrets.AOC_SESSION_COOKIE }}
+
+      - name: Commit input
+        run: |
+          git add .
+          git commit -m "Adding todays input"
+          git push
