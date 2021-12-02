@@ -1,15 +1,14 @@
 ﻿using AoCHelper;
-using System.IO;
 
 namespace AdventOfCode
 {
     public class Day_01 : BaseDay
     {
-        private readonly string _input;
+        private readonly int[] _input;
 
         public Day_01()
         {
-            _input = File.ReadAllText(InputFilePath);
+            _input = Array.ConvertAll(File.ReadAllText(InputFilePath).Split('\n'), s => int.Parse(s));
         }
 
         public int CalculateDepthIncreases(int[] input)
@@ -46,18 +45,8 @@ namespace AdventOfCode
             return CalculateDepthIncreases(windows.ToArray());
         }
 
-        public override ValueTask<string> Solve_1()
-        {
-            int[] input = Array.ConvertAll(_input.Split('\n'), s => int.Parse(s));
+        public override ValueTask<string> Solve_1() => new(CalculateDepthIncreases(_input).ToString());
 
-            return new(CalculateDepthIncreases(input).ToString());
-        }
-
-        public override ValueTask<string> Solve_2()
-        {
-            int[] input = Array.ConvertAll(_input.Split('\n'), s => int.Parse(s));
-
-            return new(CalculateCumulativeDepthIncreases(input).ToString());
-        }
+        public override ValueTask<string> Solve_2() => new(CalculateCumulativeDepthIncreases(_input).ToString());
     }
 }
