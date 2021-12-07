@@ -31,22 +31,21 @@ namespace AdventOfCode
         {
             double average = ((double)input.Sum() / (double)input.Count());
             int lowerBoundAvg = ((int)Math.Round(average - .5));
-            int upperBoundAvg = ((int)Math.Round(average + .5));
+            int upperBoundAvg = lowerBoundAvg + 1;
 
             var totals = (0, 0);
             foreach (var crab in input)
             {
                 int lowerSubtotal = 0;
-                int upperSubtotal = 0;
-                for (int i = 1; i <= (Math.Abs(crab - lowerBoundAvg)); i++)
+
+                int i;
+                for (i = 1; i <= (Math.Abs(crab - lowerBoundAvg)); i++)
                 {
                     lowerSubtotal += i;
                 }
 
-                for (int i = 1; i <= (Math.Abs(crab - upperBoundAvg)); i++)
-                {
-                    upperSubtotal += i;
-                }
+                int adjustments = upperBoundAvg > crab ? i : -i + 1;
+                int upperSubtotal = lowerSubtotal + adjustments;
 
                 totals.Item1 += lowerSubtotal;
                 totals.Item2 += upperSubtotal;
