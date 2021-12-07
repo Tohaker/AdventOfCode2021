@@ -36,7 +36,7 @@ namespace AdventOfCode.Tests
         {
             var result = day.Solve_2().ToString();
 
-            Assert.Equal("Solution 2", result);
+            Assert.Equal("93397632", result);
         }
     }
 }

@@ -29,22 +29,30 @@ namespace AdventOfCode
 
         public int CheapestFuelAvg(int[] input)
         {
-            double a = ((double)input.Sum() / (double)input.Count());
-            int avg = ((int)Math.Round(a));
+            double average = ((double)input.Sum() / (double)input.Count());
+            int lowerBoundAvg = ((int)Math.Round(average - .5));
+            int upperBoundAvg = ((int)Math.Round(average + .5));
 
-            int total = 0;
+            var totals = (0, 0);
             foreach (var crab in input)
             {
-                int subtotal = 0;
-                for (int i = 1; i <= (Math.Abs(crab - avg)); i++)
+                int lowerSubtotal = 0;
+                int upperSubtotal = 0;
+                for (int i = 1; i <= (Math.Abs(crab - lowerBoundAvg)); i++)
                 {
-                    subtotal += i;
+                    lowerSubtotal += i;
                 }
 
-                total += subtotal;
+                for (int i = 1; i <= (Math.Abs(crab - upperBoundAvg)); i++)
+                {
+                    upperSubtotal += i;
+                }
+
+                totals.Item1 += lowerSubtotal;
+                totals.Item2 += upperSubtotal;
             }
 
-            return total;
+            return totals.Item1 > totals.Item2 ? totals.Item2 : totals.Item1;
         }
 
         public override ValueTask<string> Solve_1() => new(CheapestFuel(_input).ToString());
