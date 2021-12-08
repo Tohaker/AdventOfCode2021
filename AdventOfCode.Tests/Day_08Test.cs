@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Xunit;
 
 namespace AdventOfCode.Tests
@@ -24,6 +25,29 @@ namespace AdventOfCode.Tests
             var result = day.CountUniqueDigits(input);
 
             Assert.Equal(26, result);
+        }
+
+        [Fact]
+        public void DetermineSegmentCodes_ReturnsAnswer()
+        {
+            string[] _input = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab".Split();
+
+            var result = day.DetermineSegmentCodes(_input);
+            Dictionary<string, int> expected = new Dictionary<string, int>()
+            {
+                // {"cagedb", 0},
+                {"ab", 1},
+                // {"gcdfa", 2},
+                // {"fbcad", 3},
+                {"eafb", 4},
+                // {"cdfbe", 5},
+                // {"cdfgeb", 6},
+                {"dab", 7},
+                {"acedgfb", 8},
+                {"cefabd", 9},
+            };
+
+            Assert.Equal(expected, result);
         }
 
         [Fact]
