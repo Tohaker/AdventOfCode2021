@@ -35,19 +35,27 @@ namespace AdventOfCode.Tests
             var result = day.DetermineSegmentCodes(_input);
             Dictionary<string, int> expected = new Dictionary<string, int>()
             {
-                // {"cagedb", 0},
+                {"cagedb", 0},
                 {"ab", 1},
-                // {"gcdfa", 2},
-                // {"fbcad", 3},
+                {"gcdfa", 2},
+                {"fbcad", 3},
                 {"eafb", 4},
-                // {"cdfbe", 5},
-                // {"cdfgeb", 6},
+                {"cdfbe", 5},
+                {"cdfgeb", 6},
                 {"dab", 7},
                 {"acedgfb", 8},
                 {"cefabd", 9},
             };
 
             Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void Example2_ReturnsAnswer()
+        {
+            var result = day.CalculateTotalDisplay(input);
+
+            Assert.Equal(61229, result);
         }
 
         [Fact]
@@ -63,7 +71,7 @@ namespace AdventOfCode.Tests
         {
             var result = day.Solve_2().ToString();
 
-            Assert.Equal("Solution 2", result);
+            Assert.Equal("1091609", result);
         }
     }
 }
