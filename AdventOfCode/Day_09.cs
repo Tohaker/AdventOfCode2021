@@ -16,45 +16,31 @@ namespace AdventOfCode
             List<List<int>> caves = new List<List<int>>();
             int riskLevel = 0;
 
+            int rowLength = input[0].Length + 2;
+            caves.Add(Enumerable.Repeat(9, rowLength).ToList());
+
             foreach (var line in input)
             {
                 List<int> row = Array.ConvertAll(line.ToCharArray(), c => c - '0').ToList();
+                row.Insert(0, 9);
+                row.Add(9);
                 caves.Add(row);
             }
 
+            caves.Add(Enumerable.Repeat(9, rowLength).ToList());
+
             int bottomRow = caves.Count() - 1;
 
-            for (int i = 0; i <= bottomRow; i++)
+            for (int i = 1; i < bottomRow; i++)
             {
                 var row = caves[i];
-                var rowLen = row.Count() - 1;
-                for (int j = 0; j < row.Count(); j++)
+                for (int j = 1; j < rowLength - 1; j++)
                 {
                     var current = row[j];
-                    if (i == 0)
-                    {
-                        // Check adjacent points
-                        if ((j == 0 && row[j + 1] > current && caves[i + 1][j] > current)
-                        || (j == rowLen && row[j - 1] > current && caves[i + 1][j] > current)
-                        || (j > 0 && j < rowLen && row[j + 1] > current && row[j - 1] > current && caves[i + 1][j] > current))
-                            riskLevel += current + 1;
-                    }
-                    else if (i == bottomRow)
-                    {
-                        // Check adjacent points
-                        if ((j == 0 && row[j + 1] > current && caves[i - 1][j] > current)
-                        || (j == rowLen && row[j - 1] > current && caves[i - 1][j] > current)
-                        || (j > 0 && j < rowLen && row[j + 1] > current && row[j - 1] > current && caves[i - 1][j] > current))
-                            riskLevel += current + 1;
-                    }
-                    else
-                    {
-                        // Check adjacent points
-                        if ((j == 0 && row[j + 1] > current && caves[i + 1][j] > current && caves[i - 1][j] > current)
-                        || (j == rowLen && row[j - 1] > current && caves[i + 1][j] > current && caves[i - 1][j] > current)
-                        || (j > 0 && j < rowLen && row[j + 1] > current && row[j - 1] > current && caves[i + 1][j] > current && caves[i - 1][j] > current))
-                            riskLevel += current + 1;
-                    }
+
+                    // Check adjacent points
+                    if (row[j + 1] > current && row[j - 1] > current && caves[i + 1][j] > current && caves[i - 1][j] > current)
+                        riskLevel += current + 1;
                 }
 
             }
