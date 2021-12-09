@@ -5,13 +5,28 @@ namespace AdventOfCode.Tests
     public class Day_09_Should
     {
         Day_09 day = new Day_09();
+        string[] input = new string[] {
+            "2199943210",
+            "3987894921",
+            "9856789892",
+            "8767896789",
+            "9899965678",
+        };
+
+        [Fact]
+        public void Example1_ReturnsAnswer()
+        {
+            var result = day.FindLowPoints(input);
+
+            Assert.Equal(15, result);
+        }
 
         [Fact]
         public void Solution1_ReturnsAnswer()
         {
             var result = day.Solve_1().ToString();
 
-            Assert.Equal("Solution 1", result);
+            Assert.Equal("514", result);
         }
 
         [Fact]
