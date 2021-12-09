@@ -21,6 +21,13 @@ namespace AdventOfCode.Tests
             Assert.Equal(15, result);
         }
 
+        public void Example2_ReturnsAnswer()
+        {
+            var result = day.FindBasins(input);
+
+            Assert.Equal(1134, result);
+        }
+
         [Fact]
         public void Solution1_ReturnsAnswer()
         {
@@ -34,7 +41,7 @@ namespace AdventOfCode.Tests
         {
             var result = day.Solve_2().ToString();
 
-            Assert.Equal("Solution 2", result);
+            Assert.Equal("1103130", result);
         }
     }
 }
