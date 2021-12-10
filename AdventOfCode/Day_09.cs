@@ -12,10 +12,9 @@ namespace AdventOfCode
             _input = File.ReadAllText(InputFilePath).Split('\n');
         }
 
-        public int FindLowPoints(string[] input)
+        private List<List<int>> CreateCaveMap(string[] input)
         {
             List<List<int>> caves = new List<List<int>>();
-            int riskLevel = 0;
 
             int rowLength = input[0].Length + 2;
             caves.Add(Enumerable.Repeat(9, rowLength).ToList());
@@ -30,6 +29,15 @@ namespace AdventOfCode
 
             caves.Add(Enumerable.Repeat(9, rowLength).ToList());
 
+            return caves;
+        }
+
+        public int FindLowPoints(string[] input)
+        {
+            var caves = CreateCaveMap(input);
+            int riskLevel = 0;
+
+            int rowLength = caves[0].Count();
             int bottomRow = caves.Count() - 1;
 
             for (int i = 1; i < bottomRow; i++)
@@ -51,23 +59,11 @@ namespace AdventOfCode
 
         public int FindBasins(string[] input)
         {
-            List<List<int>> caves = new List<List<int>>();
+            var caves = CreateCaveMap(input);
             List<Vector2> lowPoints = new List<Vector2>();
             List<int> basins = new List<int>();
 
-            int rowLength = input[0].Length + 2;
-            caves.Add(Enumerable.Repeat(9, rowLength).ToList());
-
-            foreach (var line in input)
-            {
-                List<int> row = Array.ConvertAll(line.ToCharArray(), c => c - '0').ToList();
-                row.Insert(0, 9);
-                row.Add(9);
-                caves.Add(row);
-            }
-
-            caves.Add(Enumerable.Repeat(9, rowLength).ToList());
-
+            int rowLength = caves[0].Count();
             int bottomRow = caves.Count() - 1;
 
             for (int i = 1; i < bottomRow; i++)
@@ -106,11 +102,7 @@ namespace AdventOfCode
         {
             if (caves[y][x] != 9)
             {
-                foreach (var var in _points)
-                {
-                    if (var.X == x && var.Y == y) return;
-                }
-                _points.Add(new Vector2(x, y));
+                if (!_points.Any((v) => v == new Vector2(x, y))) _points.Add(new Vector2(x, y));
             }
         }
 
