@@ -1,3 +1,4 @@
+using System.Numerics;
 using Xunit;
 
 namespace AdventOfCode.Tests
@@ -15,14 +16,14 @@ namespace AdventOfCode.Tests
 
             var floorMap = floor.ventMap;
 
-            Assert.Equal(1, floorMap.TryGetValue(new Coords(0, 9), out var value) ? value : 0);
-            Assert.Equal(1, floorMap.TryGetValue(new Coords(1, 9), out var value1) ? value1 : 0);
-            Assert.Equal(1, floorMap.TryGetValue(new Coords(2, 9), out var value2) ? value2 : 0);
-            Assert.Equal(1, floorMap.TryGetValue(new Coords(3, 9), out var value3) ? value3 : 0);
-            Assert.Equal(1, floorMap.TryGetValue(new Coords(4, 9), out var value4) ? value4 : 0);
-            Assert.Equal(1, floorMap.TryGetValue(new Coords(5, 9), out var value5) ? value5 : 0);
+            Assert.Equal(1, floorMap.TryGetValue(new Vector2(0, 9), out var value) ? value : 0);
+            Assert.Equal(1, floorMap.TryGetValue(new Vector2(1, 9), out var value1) ? value1 : 0);
+            Assert.Equal(1, floorMap.TryGetValue(new Vector2(2, 9), out var value2) ? value2 : 0);
+            Assert.Equal(1, floorMap.TryGetValue(new Vector2(3, 9), out var value3) ? value3 : 0);
+            Assert.Equal(1, floorMap.TryGetValue(new Vector2(4, 9), out var value4) ? value4 : 0);
+            Assert.Equal(1, floorMap.TryGetValue(new Vector2(5, 9), out var value5) ? value5 : 0);
 
-            Assert.Equal(0, floorMap.TryGetValue(new Coords(6, 4), out var value6) ? value6 : 0);
+            Assert.Equal(0, floorMap.TryGetValue(new Vector2(6, 4), out var value6) ? value6 : 0);
         }
     }
 

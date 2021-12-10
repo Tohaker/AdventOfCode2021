@@ -1,4 +1,5 @@
 using AoCHelper;
+using System.Numerics;
 
 namespace AdventOfCode
 {
@@ -42,11 +43,11 @@ namespace AdventOfCode
 
     public class OceanFloor
     {
-        public Dictionary<Coords, int> ventMap { get; }
+        public Dictionary<Vector2, int> ventMap { get; }
 
         public OceanFloor(string[] input, bool horizontalOnly)
         {
-            ventMap = new Dictionary<Coords, int>();
+            ventMap = new Dictionary<Vector2, int>();
 
             foreach (var line in input)
             {
@@ -63,7 +64,7 @@ namespace AdventOfCode
 
         public int CountOverlappingVents() => ventMap.Values.Where(v => v > 1).Count();
 
-        private List<Coords> ParseInputLine(string line, bool horizontalOnly)
+        private List<Vector2> ParseInputLine(string line, bool horizontalOnly)
         {
             var parts = line.Split(" -> ");
             var start = parts[0].Split(',');
@@ -74,7 +75,7 @@ namespace AdventOfCode
             var endX = int.Parse(end[0]);
             var endY = int.Parse(end[1]);
 
-            var result = new List<Coords>();
+            var result = new List<Vector2>();
 
             // Ignore diagonals here
             var isDiagonal = startX != endX && startY != endY;
@@ -88,7 +89,7 @@ namespace AdventOfCode
                     IEnumerable<int> xRange = Sequence.Range(startX, endX);
                     IEnumerable<int> yRange = Sequence.Range(startY, endY);
 
-                    return xRange.Zip(yRange, (x, y) => new Coords(x, y)).ToList();
+                    return xRange.Zip(yRange, (x, y) => new Vector2(x, y)).ToList();
                 }
             }
 
@@ -97,7 +98,7 @@ namespace AdventOfCode
                 IEnumerable<int> yRange = Sequence.Range(startY, endY);
                 IEnumerable<int> xRange = Enumerable.Repeat(startX, yRange.Count());
 
-                return xRange.Zip(yRange, (x, y) => new Coords(x, y)).ToList();
+                return xRange.Zip(yRange, (x, y) => new Vector2(x, y)).ToList();
             }
 
             if (startY == endY)
@@ -105,7 +106,7 @@ namespace AdventOfCode
                 IEnumerable<int> xRange = Sequence.Range(startX, endX);
                 IEnumerable<int> yRange = Enumerable.Repeat(startY, xRange.Count());
 
-                return xRange.Zip(yRange, (x, y) => new Coords(x, y)).ToList();
+                return xRange.Zip(yRange, (x, y) => new Vector2(x, y)).ToList();
             }
 
             return result;
