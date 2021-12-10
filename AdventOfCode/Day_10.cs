@@ -5,6 +5,13 @@ namespace AdventOfCode
     public class Day_10 : BaseDay
     {
         private readonly string[] _input;
+        private readonly char[] closingChars = new char[] { ')', '}', ']', '>' };
+        private readonly Dictionary<char, char> correspondingChars = new Dictionary<char, char>() {
+                {'(', ')'},
+                {'{', '}'},
+                {'[', ']'},
+                {'<', '>'}
+            };
 
         public Day_10()
         {
@@ -14,7 +21,6 @@ namespace AdventOfCode
         public char FindFirstIllegalCharacter(string line)
         {
             Stack<char> stack = new Stack<char>();
-            char[] closingChars = new char[] { ')', '}', ']', '>' };
 
             foreach (char c in line.ToCharArray())
             {
@@ -55,13 +61,7 @@ namespace AdventOfCode
         public List<char> CompleteUnfinishedLine(string line)
         {
             Stack<char> stack = new Stack<char>();
-            char[] closingChars = new char[] { ')', '}', ']', '>' };
-            Dictionary<char, char> correspondingChars = new Dictionary<char, char>() {
-                {'(', ')'},
-                {'{', '}'},
-                {'[', ']'},
-                {'<', '>'}
-            };
+            List<char> result = new List<char>();
 
             foreach (char c in line.ToCharArray())
             {
@@ -77,22 +77,24 @@ namespace AdventOfCode
                 {
                     case '(':
                         if (c == ')') stack.Pop();
+                        else return result;
                         break;
                     case '[':
                         if (c == ']') stack.Pop();
+                        else return result;
                         break;
                     case '{':
                         if (c == '}') stack.Pop();
+                        else return result;
                         break;
                     case '<':
                         if (c == '>') stack.Pop();
+                        else return result;
                         break;
                     default:
                         break;
                 }
             }
-
-            List<char> result = new List<char>();
 
             foreach (char c in stack.AsEnumerable())
             {
@@ -135,18 +137,13 @@ namespace AdventOfCode
 
             foreach (var line in input)
             {
-                var c = FindFirstIllegalCharacter(line);
                 long count = 0;
+                var chars = CompleteUnfinishedLine(line);
 
-                if (c == 'a')
+                foreach (var ch in chars)
                 {
-                    var chars = CompleteUnfinishedLine(line);
-
-                    foreach (var ch in chars)
-                    {
-                        count *= 5;
-                        count += scores[ch];
-                    }
+                    count *= 5;
+                    count += scores[ch];
                 }
 
                 if (count > 0) counts.Add(count);
