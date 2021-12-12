@@ -21,6 +21,7 @@ namespace AdventOfCode.Tests
             Assert.Equal(15, result);
         }
 
+        [Fact]
         public void Example2_ReturnsAnswer()
         {
             var result = day.FindBasins(input);
