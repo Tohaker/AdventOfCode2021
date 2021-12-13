@@ -54,5 +54,21 @@ namespace AdventOfCode.Tests
 
             Assert.Equal("743", result);
         }
+
+        [Fact]
+        public void Solution2_ReturnsAnswer()
+        {
+            var result = day.Solve_2().ToString();
+            var expected =
+@"###   ##  ###  #     ##  #  # #  # #   
+#  # #  # #  # #    #  # # #  #  # #   
+#  # #    #  # #    #  # ##   #### #   
+###  #    ###  #    #### # #  #  # #   
+# #  #  # #    #    #  # # #  #  # #   
+#  #  ##  #    #### #  # #  # #  # ####
+";
+
+            Assert.Equal(expected, result);
+        }
     }
 }

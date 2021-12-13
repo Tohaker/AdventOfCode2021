@@ -87,11 +87,6 @@ namespace AdventOfCode
 
         public override ValueTask<string> Solve_1() => new(FoldPaper(_input, 1).Count.ToString());
 
-        public override ValueTask<string> Solve_2()
-        {
-            Console.WriteLine(PrintDots(FoldPaper(_input)));
-
-            return new("Solution 2");
-        }
+        public override ValueTask<string> Solve_2() => new(PrintDots(FoldPaper(_input)));
     }
 }
