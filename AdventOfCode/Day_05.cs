@@ -25,22 +25,6 @@ namespace AdventOfCode
         }
     }
 
-    public readonly struct Coords
-    {
-        public Coords(int x, int y)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public int X { get; init; }
-        public int Y { get; init; }
-
-        public bool Equals(Coords other) => X == other.X && Y == other.Y;
-
-        public override int GetHashCode() => HashCode.Combine(X, Y);
-    }
-
     public class OceanFloor
     {
         public Dictionary<Vector2, int> ventMap { get; }
