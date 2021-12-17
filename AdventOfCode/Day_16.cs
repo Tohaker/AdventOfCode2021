@@ -113,7 +113,7 @@ namespace AdventOfCode
             _input = File.ReadAllText(InputFilePath);
         }
 
-        private int RecursePackets(Packet packet, int count)
+        private int RecursePacketVersion(Packet packet, int count)
         {
             count += packet.version;
 
@@ -121,11 +121,76 @@ namespace AdventOfCode
             {
                 foreach (var p in packet.subpackets)
                 {
-                    count = RecursePackets(p, count);
+                    count = RecursePacketVersion(p, count);
                 }
             }
 
             return count;
+        }
+
+        private long RecursePacketCalculation(Packet packet, long total)
+        {
+            var id = packet.typeID;
+            long value = 0;
+            long v1 = 0;
+            long v2 = 0;
+            List<long> values = new();
+
+            switch (id)
+            {
+                case 0:
+                    foreach (var p in packet.subpackets)
+                    {
+                        value = p.represents == Represents.LITERAL ?
+                            value + p.value
+                            : value + RecursePacketCalculation(p, value);
+                    }
+                    return value;
+                case 1:
+                    value = 1;
+                    foreach (var p in packet.subpackets)
+                    {
+                        value = p.represents == Represents.LITERAL ?
+                            value * p.value
+                            : value * RecursePacketCalculation(p, value);
+                    }
+                    return value;
+                case 2:
+                    foreach (var p in packet.subpackets)
+                    {
+                        if (p.represents == Represents.LITERAL)
+                            values.Add(p.value);
+                        else
+                            values.Add(RecursePacketCalculation(p, value));
+                    }
+                    return values.Min();
+                case 3:
+                    foreach (var p in packet.subpackets)
+                    {
+                        if (p.represents == Represents.LITERAL)
+                            values.Add(p.value);
+                        else
+                            values.Add(RecursePacketCalculation(p, value));
+                    }
+                    return values.Max();
+                case 5:
+                    v1 = packet.subpackets[0].represents == Represents.LITERAL ? packet.subpackets[0].value : RecursePacketCalculation(packet.subpackets[0], 0);
+                    v2 = packet.subpackets[1].represents == Represents.LITERAL ? packet.subpackets[1].value : RecursePacketCalculation(packet.subpackets[1], 0);
+
+                    return v1 > v2 ? 1 : 0;
+                case 6:
+                    v1 = packet.subpackets[0].represents == Represents.LITERAL ? packet.subpackets[0].value : RecursePacketCalculation(packet.subpackets[0], 0);
+                    v2 = packet.subpackets[1].represents == Represents.LITERAL ? packet.subpackets[1].value : RecursePacketCalculation(packet.subpackets[1], 0);
+
+                    return v1 < v2 ? 1 : 0;
+                case 7:
+                    v1 = packet.subpackets[0].represents == Represents.LITERAL ? packet.subpackets[0].value : RecursePacketCalculation(packet.subpackets[0], 0);
+                    v2 = packet.subpackets[1].represents == Represents.LITERAL ? packet.subpackets[1].value : RecursePacketCalculation(packet.subpackets[1], 0);
+
+                    return v1 == v2 ? 1 : 0;
+                default:
+                    return value;
+            }
         }
 
         public int SumVersionNumbers(string input)
@@ -136,11 +201,22 @@ namespace AdventOfCode
             Packet packet = new(bits);
             packet.ParseData();
 
-            return RecursePackets(packet, 0);
+            return RecursePacketVersion(packet, 0);
+        }
+
+        public long RunCalculations(string input)
+        {
+            // Convert Hex to Binary
+            var bits = String.Join(String.Empty, input.Select(c => Convert.ToString(Convert.ToInt32(c.ToString(), 16), 2).PadLeft(4, '0')));
+
+            Packet packet = new(bits);
+            packet.ParseData();
+
+            return RecursePacketCalculation(packet, 0);
         }
 
         public override ValueTask<string> Solve_1() => new(SumVersionNumbers(_input).ToString());
 
-        public override ValueTask<string> Solve_2() => new("Solution 2");
+        public override ValueTask<string> Solve_2() => new(RunCalculations(_input).ToString());
     }
 }
