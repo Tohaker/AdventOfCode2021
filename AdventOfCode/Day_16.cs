@@ -56,13 +56,15 @@ namespace AdventOfCode
             else
             {
                 var lengthTypeID = rawData[0];
+                var prependedBits = 7;
 
                 if (lengthTypeID == '0')
                 {
                     // Next 15 bits represents the number of bits in all the subpackets
-                    var length = Convert.ToInt32(rawData.Substring(1, 15), 2);
+                    var bitsToCount = 15;
+                    var length = Convert.ToInt32(rawData.Substring(1, bitsToCount), 2);
 
-                    var remainingData = rawData.Substring(16, length);
+                    var remainingData = rawData.Substring(bitsToCount + 1, length);
                     var processedBits = 0;
 
                     while (processedBits < length)
@@ -76,14 +78,15 @@ namespace AdventOfCode
                     }
 
                     // Packet length is 7 (VVVTTTI) + 15 bits to calc length + length to process 
-                    return 7 + 15 + length;
+                    return prependedBits + bitsToCount + length;
                 }
                 else
                 {
                     // Next 11 bits represents the number of subpackets
-                    var length = Convert.ToInt32(rawData.Substring(1, 11), 2);
+                    var bitsToCount = 11;
+                    var length = Convert.ToInt32(rawData.Substring(1, bitsToCount), 2);
 
-                    var remainingData = rawData.Substring(12);
+                    var remainingData = rawData.Substring(bitsToCount + 1);
                     var processedBits = 0;
 
                     while (subpackets.Count < length)
@@ -97,7 +100,7 @@ namespace AdventOfCode
                     }
 
                     // Packet length is 7 (VVVTTTI) + 11 bits to calc length + bits that were processed 
-                    return 7 + 11 + processedBits;
+                    return prependedBits + bitsToCount + processedBits;
                 }
             }
         }
@@ -136,6 +139,24 @@ namespace AdventOfCode
             long v2 = 0;
             List<long> values = new();
 
+            if (id == 2 || id == 3)
+            {
+                foreach (var p in packet.subpackets)
+                {
+                    if (p.represents == Represents.LITERAL)
+                        values.Add(p.value);
+                    else
+                        values.Add(RecursePacketCalculation(p, value));
+                }
+            }
+
+            if (id >= 5)
+            {
+                v1 = packet.subpackets[0].represents == Represents.LITERAL ? packet.subpackets[0].value : RecursePacketCalculation(packet.subpackets[0], 0);
+                v2 = packet.subpackets[1].represents == Represents.LITERAL ? packet.subpackets[1].value : RecursePacketCalculation(packet.subpackets[1], 0);
+
+            }
+
             switch (id)
             {
                 case 0:
@@ -156,37 +177,14 @@ namespace AdventOfCode
                     }
                     return value;
                 case 2:
-                    foreach (var p in packet.subpackets)
-                    {
-                        if (p.represents == Represents.LITERAL)
-                            values.Add(p.value);
-                        else
-                            values.Add(RecursePacketCalculation(p, value));
-                    }
                     return values.Min();
                 case 3:
-                    foreach (var p in packet.subpackets)
-                    {
-                        if (p.represents == Represents.LITERAL)
-                            values.Add(p.value);
-                        else
-                            values.Add(RecursePacketCalculation(p, value));
-                    }
                     return values.Max();
                 case 5:
-                    v1 = packet.subpackets[0].represents == Represents.LITERAL ? packet.subpackets[0].value : RecursePacketCalculation(packet.subpackets[0], 0);
-                    v2 = packet.subpackets[1].represents == Represents.LITERAL ? packet.subpackets[1].value : RecursePacketCalculation(packet.subpackets[1], 0);
-
                     return v1 > v2 ? 1 : 0;
                 case 6:
-                    v1 = packet.subpackets[0].represents == Represents.LITERAL ? packet.subpackets[0].value : RecursePacketCalculation(packet.subpackets[0], 0);
-                    v2 = packet.subpackets[1].represents == Represents.LITERAL ? packet.subpackets[1].value : RecursePacketCalculation(packet.subpackets[1], 0);
-
                     return v1 < v2 ? 1 : 0;
                 case 7:
-                    v1 = packet.subpackets[0].represents == Represents.LITERAL ? packet.subpackets[0].value : RecursePacketCalculation(packet.subpackets[0], 0);
-                    v2 = packet.subpackets[1].represents == Represents.LITERAL ? packet.subpackets[1].value : RecursePacketCalculation(packet.subpackets[1], 0);
-
                     return v1 == v2 ? 1 : 0;
                 default:
                     return value;
