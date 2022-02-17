@@ -1,8 +1,7 @@
 name: Daily Workflow
 
 on:
-  schedule:
-    - cron: "5 5 1-26 12 *"
+  workflow_dispatch:
 
 jobs:
   create-files:
